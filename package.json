@@ -10,18 +10,8 @@
     "coverage": "nyc --reporter cobertura --reporter lcov --reporter text --reporter json-summary  mocha app-test.js --timeout 10000  --exit"
   },
   "nyc": {
-  "reporter": [
-    "cobertura",
-    "lcov",
-    "text",
-    "json-summary"
-  ],
-  "check-coverage": true,
-  "lines": 88,
-  "statements": 88,
-  "functions": 87,
-  "branches": 50
-}
+    "check-coverage": true,
+    "lines": 90
   },
   "dependencies": {
     "cors": "^2.8.5",
