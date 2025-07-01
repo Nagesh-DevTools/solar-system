@@ -40,7 +40,7 @@ jobs:
 
   docker-image:
     permissions:
-      package: write
+      packages: write
     name: docker
     runs-on: ubuntu-latest
 
