@@ -57,7 +57,8 @@ jobs:
         with:
           context: .
           push: false
-          tags: ${{ vars.DOCKER_NAME }}/solar:${{ github.sha }}
+          tags: knightfury285/solar:${{ github.sha }}
+
 
 
       - name: Test Docker container
@@ -78,7 +79,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_NAME }}/solar:${{ github.sha }}
+          tags: knightfury285/solar:${{ github.sha }}
+
 
 
           
