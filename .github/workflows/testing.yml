@@ -52,7 +52,7 @@ jobs:
           username: ${{ vars.DOCKER_NAME }}
           password: ${{ secrets.DOCKER_PASS }}
 
-      - name: Build and push
+      - name: Build 
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -71,3 +71,12 @@ jobs:
 
           echo "Testing URL"
           wget -q -O - http://127.0.0.1:3000/live | grep live
+
+      - name:  push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: docker/solar:${{ github.sha }}
+
+          
