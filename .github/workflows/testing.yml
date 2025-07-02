@@ -11,24 +11,22 @@ env:
 
 jobs:
   Unit-testing:
+    runs-on: ubuntu-latest
     services:
       mongo-db:
-        image: siddharth67/mongo-db:non-prod  # pre-built mongo db image
+        image: siddharth67/mongo-db:non-prod
         ports:
           - 27017:27017
-
         env:
           MONGO_URI: 'mongodb://localhost:27017/superData'
           MONGO_USERNAME: non-prod-user
           MONGO_PASSWORD: non-prod-password
-        
-    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Node.js with version
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -45,31 +43,23 @@ jobs:
       - name: Run tests
         run: npm test
 
-     
-
-Code-coverage:
-    code:
-      container:
-        image: node:18
-      services:
-        mongo-db: siddharth67/mongo-db:non-prod
-        options:
-          --name proddb
+  Code-coverage:
+    runs-on: ubuntu-latest
+    services:
+      mongo-db:
+        image: siddharth67/mongo-db:non-prod
+        options: --name proddb
         env:
-          MONGO_URI: 'proddb://localhost:27017/superData'
+          MONGO_URI: 'mongodb://porddb:27017/superData'
           MONGO_USERNAME: non-prod-user
           MONGO_PASSWORD: non-prod-password
-        
-      runs-on: ubuntu-latest
 
-      steps:
+    container:
+      image: node:18
+
+    steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-
-    #  - name: Set up Node.js with version
-     #   uses: actions/setup-node@v4
-     #   with:
-      #    node-version: 18
 
       - name: Cache NPM
         uses: actions/cache@v3
@@ -83,11 +73,3 @@ Code-coverage:
       - name: Generate coverage report
         run: npm run coverage
         continue-on-error: true
-
-
-            
-
-
-
-
-          
