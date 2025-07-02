@@ -11,6 +11,17 @@ env:
 
 jobs:
   Unit-testing:
+    services:
+      mongo-db:
+        image: siddharth67/mongo-db:non-prod  # pre-built mongo db image
+        ports:
+          - 27017:27017
+
+        env:
+          MONGO_URI: 'mongodb://localhost:27017/superData'
+          MONGO_USERNAME: non-prod-user
+          MONGO_PASSWORD: non-prod-password
+        
     runs-on: ubuntu-latest
 
     steps:
@@ -54,13 +65,7 @@ jobs:
           username: ${{ vars.DOCKER_NAME }}
           password: ${{ secrets.DOCKER_PASS }}
 
-      - name: Login to ghcr
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
+    
       - name: Build 
         uses: docker/build-push-action@v6
         with:
@@ -91,7 +96,7 @@ jobs:
           push: true
           tags: |
             knightfury285/solar:${{ github.sha }}
-            ghcr.io/${{ github.repository_owner }}/solar:${{ github.sha }}
+            
 
 
 
