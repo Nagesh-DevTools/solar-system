@@ -45,9 +45,46 @@ jobs:
       - name: Run tests
         run: npm test
 
+     
+
+Code-coverage:
+    code:
+      container:
+        image: node:18
+      services:
+        mongo-db: siddharth67/mongo-db:non-prod
+        options:
+          --name proddb
+        env:
+          MONGO_URI: 'proddb://localhost:27017/superData'
+          MONGO_USERNAME: non-prod-user
+          MONGO_PASSWORD: non-prod-password
+        
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+    #  - name: Set up Node.js with version
+     #   uses: actions/setup-node@v4
+     #   with:
+      #    node-version: 18
+
+      - name: Cache NPM
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Generate coverage report
         run: npm run coverage
         continue-on-error: true
+
+    
 
   docker-image:
     permissions:
