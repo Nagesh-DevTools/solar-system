@@ -24,9 +24,10 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-       IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/myapp:latest
-       docker build -t $IMAGE_NAME 
-       docker push $IMAGE_NAME
+        IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/myapp:latest
+        echo "Building image: $IMAGE_NAME"
+        docker build -t $IMAGE_NAME .
+        docker push $IMAGE_NAME
 
 
     - name: Setup SSH agent
